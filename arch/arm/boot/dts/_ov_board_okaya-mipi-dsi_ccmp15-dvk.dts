@@ -1,0 +1,108 @@
+/dts-v1/;
+/plugin/;
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/pinctrl/stm32-pinfunc.h>
+
+/ {
+	fragment@0 {
+		target-path = "/";
+		__overlay__ {
+			overlay-description = "WF50DTYA3MNG10 MIPI-DSI (ILI9881C) + GT928";
+		};
+	};
+	
+	/* Disable the LT8912 bridge if present */
+	fragment@1 {
+		target = <&lt_bridge>;
+	__overlay__ { status = "disabled"; };
+	};
+	
+	/* (Optional) disable PWM backlight if you power BL externally */
+	fragment@2 {
+		target = <&display_bl>;
+	__overlay__ { status = "okay"; };
+	};
+	
+	/* Goodix touch enable (if these nodes exist in base) */
+	fragment@3 { target = <&goodix_touch>;
+		__overlay__ {
+			reset-gpios = <&gpioc 3 GPIO_ACTIVE_LOW>; /* TP_RST */
+			skip-firmware-request;
+		status = "okay"; };
+	};
+	fragment@4 { target = <&goodix_touch2>;
+		__overlay__ {
+			reset-gpios = <&gpioc 3 GPIO_ACTIVE_LOW>; /* TP_RST */
+			skip-firmware-request;
+		status = "okay"; };
+	};
+	
+	/* PH3 as DISP_EN (GPIO hog) */
+	fragment@5 {
+		target = <&pinctrl>;
+		__overlay__ {
+			disp_blkl_en: disp-blkl-en {
+				pins1 {
+					/* PH3 as GPIO output */
+					pinmux = <STM32_PINMUX('H', 3, GPIO)>;
+					bias-disable;
+					drive-push-pull;
+					slew-rate = <1>;
+				};
+			};
+		};
+	};
+	
+	 fragment@6 {
+		target = <&gpioh>;
+		__overlay__ {
+			pinctrl-names = "default";
+			pinctrl-0 = <&disp_blkl_en>;
+			disp_en: disp-en {
+				gpio-hog;
+				gpios = <3 GPIO_ACTIVE_HIGH>;
+				output-high;
+				line-name = "DISP_EN";
+			};
+		};
+	};
+	
+	/* DSI node with input (from LTDC) and output (to panel) */
+	fragment@8 {
+		target = <&dsi>;
+		__overlay__ {
+			status = "okay";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			
+			//clocks = <&rcc DSI_K>, <&scmi_clk CK_SCMI_HSE>, <&rcc DSI_PX>;
+			
+			ports {
+				port@1 {
+					dsi_out: endpoint {
+						remote-endpoint = <&panel_in>;
+						data-lanes = <0 1>;
+					};
+				};
+			};
+			
+			panel@0 {
+				compatible = "winstar,WF50DTYA3MNG10", "ilitek,ili9881c";
+				reg = <0>;
+				power-supply = <&v3v3>;
+				backlight = <&display_bl>;
+				reset-gpios = <&gpiog 3 GPIO_ACTIVE_LOW>; /* DISP_RST */
+				dsi-lanes = <2>;
+				status = "okay";
+				
+				port {
+					panel_in: endpoint {
+						remote-endpoint = <&dsi_out>;
+						data-lanes = <0 1>;
+						
+					};
+				};
+			};
+		};
+	};
+};

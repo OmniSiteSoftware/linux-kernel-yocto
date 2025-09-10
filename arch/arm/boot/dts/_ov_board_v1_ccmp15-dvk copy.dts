@@ -1,0 +1,127 @@
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/pinctrl/stm32-pinfunc.h>
+
+/ {
+    fragment@0 {
+        target-path = "/";
+        __overlay__ {
+            overlay-description = "DVK v1: USB2514B hub with GPIOA10 enable and PI8 reset";
+            usb-b-connector { status = "disabled"; };
+        };
+    };
+
+    /* If your LT bridge was reusing PI8 anywhere, keep it disabled/no-hpd */
+    fragment@1 {
+        target = <&lt_bridge>;
+        __overlay__ { no-hpd; };
+    };
+
+    /* Define clean GPIO pinmux states */
+    fragment@2 {
+        target = <&pinctrl>;
+        __overlay__ {
+            hub_reset_pi8: hub-reset-pi8 {
+                pins {
+                    pinmux = <STM32_PINMUX('I', 8, GPIO)>; /* PI8 as GPIO */
+                    bias-disable;
+                    drive-push-pull;
+                    slew-rate = <1>;
+                };
+            };
+            hub_en_pa10: hub-en-pa10 {
+                pins {
+                    pinmux = <STM32_PINMUX('A', 10, GPIO)>; /* PA10 as GPIO */
+                    bias-disable;
+                    drive-push-pull;
+                    slew-rate = <1>;
+                };
+            };
+            eth2_reset_pb10: eth2_reset_pb10{
+                pins {
+                    pinmux = <STM32_PINMUX('B', 10, GPIO)>; /* PA10 as GPIO */
+                    bias-disable;
+                    drive-push-pull;
+                    slew-rate = <1>;
+                };
+            };
+
+            eth_en_pe6: eth-en-pe6 {
+                pins {
+                    pinmux = <STM32_PINMUX('E', 6, GPIO)>; /* PA10 as GPIO */
+                    bias-disable;
+                    drive-push-pull;
+                    slew-rate = <1>;
+                };
+            };
+        };
+    };
+
+    /* Ensure usb host is enabled */
+    fragment@3 {
+        target = <&usbh_ehci>;
+        __overlay__ { status = "okay"; };
+    };
+
+    fragment@4 {
+        target = <&gpioe>;
+        __overlay__ {
+            pinctrl-names = "default";
+            pinctrl-0 = <&eth_en_pe6>;
+
+            eth_en: eth-en {
+                gpio-hog;
+                gpios = <6 GPIO_ACTIVE_HIGH>;  /* PA10 */
+                output-high;                    /* EN asserted high */
+                line-name = "ETH_EN";
+            };
+        };
+    };
+
+    fragment@5 {
+        target = <&gpioa>;
+        __overlay__ {
+            pinctrl-names = "default";
+            pinctrl-0 = <&hub_en_pa10>;
+
+            usb_hub_en: usb-hub-en {
+                gpio-hog;
+                gpios = <10 GPIO_ACTIVE_HIGH>;  /* PA10 */
+                output-high;                    /* EN asserted high */
+                line-name = "USB_HUB_EN";
+            };
+        };
+    };
+
+    fragment@6 {
+        target = <&gpioi>;
+        __overlay__ {
+            pinctrl-names = "default";
+            pinctrl-0 = <&hub_reset_pi8>;
+
+            usb_hub_reset: usb-hub-reset {
+                gpio-hog;
+                gpios = <8 GPIO_ACTIVE_HIGH>;   /* PI8 */
+                output-high;                    /* Deassert RESET# (active-low) */
+                line-name = "USB_HUB_RESET";
+            };
+        };
+    };
+
+    fragment@7 {
+        target = <&gpiob>;
+        __overlay__ {
+            pinctrl-names = "default";
+            pinctrl-0 = <&eth2_reset_pb10>;
+
+            eth2_reset: eth2-reset {
+                gpio-hog;
+                gpios = <10 GPIO_ACTIVE_HIGH>;   /* PI8 */
+                output-high;                    /* Deassert RESET# (active-low) */
+                line-name = "ETH2_RESET";
+            };
+        };
+    };
+};

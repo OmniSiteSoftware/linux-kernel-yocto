@@ -453,6 +453,184 @@ static const struct ili9881c_instr k101_im2byl02_init[] = {
 	ILI9881C_COMMAND_INSTR(0xD3, 0x3F), /* VN0 */
 };
 
+/* WF50DTYA3MNG10 — ILI9881C — 720x1280 — 2-lane DSI — RGB888 — VIDEO BURST */
+static const struct ili9881c_instr WF50DTYA3MNG10_init[] = {
+	/* -------- Page 3 -------- */
+	ILI9881C_SWITCH_PAGE_INSTR(3),
+	ILI9881C_COMMAND_INSTR(0x01, 0x00),
+	ILI9881C_COMMAND_INSTR(0x02, 0x00),
+	ILI9881C_COMMAND_INSTR(0x03, 0x73),
+	ILI9881C_COMMAND_INSTR(0x04, 0x00),
+	ILI9881C_COMMAND_INSTR(0x05, 0x00),
+	ILI9881C_COMMAND_INSTR(0x06, 0x0a),
+	ILI9881C_COMMAND_INSTR(0x07, 0x00),
+	ILI9881C_COMMAND_INSTR(0x08, 0x00),
+	ILI9881C_COMMAND_INSTR(0x09, 0x01),
+	ILI9881C_COMMAND_INSTR(0x0a, 0x00),
+	ILI9881C_COMMAND_INSTR(0x0b, 0x00),
+	ILI9881C_COMMAND_INSTR(0x0c, 0x01),
+	ILI9881C_COMMAND_INSTR(0x0d, 0x00),
+	ILI9881C_COMMAND_INSTR(0x0e, 0x00),
+	ILI9881C_COMMAND_INSTR(0x0f, 0x1d),
+	ILI9881C_COMMAND_INSTR(0x10, 0x1d),
+	ILI9881C_COMMAND_INSTR(0x15, 0x00),
+	ILI9881C_COMMAND_INSTR(0x16, 0x00),
+	ILI9881C_COMMAND_INSTR(0x17, 0x00),
+	ILI9881C_COMMAND_INSTR(0x18, 0x00),
+	ILI9881C_COMMAND_INSTR(0x19, 0x00),
+	ILI9881C_COMMAND_INSTR(0x1a, 0x00),
+	ILI9881C_COMMAND_INSTR(0x1b, 0x00),
+	ILI9881C_COMMAND_INSTR(0x1c, 0x00),
+	ILI9881C_COMMAND_INSTR(0x1d, 0x00),
+	ILI9881C_COMMAND_INSTR(0x1e, 0x40),
+	ILI9881C_COMMAND_INSTR(0x1f, 0x80),
+	ILI9881C_COMMAND_INSTR(0x20, 0x06),
+	ILI9881C_COMMAND_INSTR(0x21, 0x02),
+	ILI9881C_COMMAND_INSTR(0x28, 0x33),
+	ILI9881C_COMMAND_INSTR(0x29, 0x03),
+	ILI9881C_COMMAND_INSTR(0x2a, 0x00),
+	ILI9881C_COMMAND_INSTR(0x2b, 0x00),
+	ILI9881C_COMMAND_INSTR(0x2c, 0x00),
+	ILI9881C_COMMAND_INSTR(0x2d, 0x00),
+	ILI9881C_COMMAND_INSTR(0x2e, 0x00),
+	ILI9881C_COMMAND_INSTR(0x2f, 0x00),
+	ILI9881C_COMMAND_INSTR(0x35, 0x00),
+	ILI9881C_COMMAND_INSTR(0x36, 0x00),
+	ILI9881C_COMMAND_INSTR(0x37, 0x00),
+	ILI9881C_COMMAND_INSTR(0x38, 0x3C),
+	ILI9881C_COMMAND_INSTR(0x39, 0x00),
+	ILI9881C_COMMAND_INSTR(0x3a, 0x40),
+	ILI9881C_COMMAND_INSTR(0x3b, 0x40),
+	ILI9881C_COMMAND_INSTR(0x3c, 0x00),
+	ILI9881C_COMMAND_INSTR(0x3d, 0x00),
+	ILI9881C_COMMAND_INSTR(0x3e, 0x00),
+	ILI9881C_COMMAND_INSTR(0x3f, 0x00),
+	ILI9881C_COMMAND_INSTR(0x40, 0x00),
+	ILI9881C_COMMAND_INSTR(0x41, 0x00),
+	ILI9881C_COMMAND_INSTR(0x42, 0x00),
+	ILI9881C_COMMAND_INSTR(0x43, 0x00),
+	ILI9881C_COMMAND_INSTR(0x44, 0x00),
+	ILI9881C_COMMAND_INSTR(0x55, 0xab),
+	ILI9881C_COMMAND_INSTR(0x5a, 0x89),
+	ILI9881C_COMMAND_INSTR(0x5b, 0xab),
+	ILI9881C_COMMAND_INSTR(0x5c, 0xcd),
+	ILI9881C_COMMAND_INSTR(0x5d, 0xef),
+	ILI9881C_COMMAND_INSTR(0x5e, 0x11),
+	ILI9881C_COMMAND_INSTR(0x5f, 0x01),
+	ILI9881C_COMMAND_INSTR(0x60, 0x00),
+	ILI9881C_COMMAND_INSTR(0x61, 0x15),
+	ILI9881C_COMMAND_INSTR(0x62, 0x14),
+	ILI9881C_COMMAND_INSTR(0x63, 0x0e),
+	ILI9881C_COMMAND_INSTR(0x64, 0x0f),
+	ILI9881C_COMMAND_INSTR(0x65, 0x0c),
+	ILI9881C_COMMAND_INSTR(0x66, 0x0d),
+	ILI9881C_COMMAND_INSTR(0x67, 0x06),
+	ILI9881C_COMMAND_INSTR(0x68, 0x02),
+	ILI9881C_COMMAND_INSTR(0x69, 0x07),
+	ILI9881C_COMMAND_INSTR(0x6a, 0x02),
+	ILI9881C_COMMAND_INSTR(0x6b, 0x02),
+	ILI9881C_COMMAND_INSTR(0x6c, 0x02),
+	ILI9881C_COMMAND_INSTR(0x6d, 0x02),
+	ILI9881C_COMMAND_INSTR(0x6e, 0x02),
+	ILI9881C_COMMAND_INSTR(0x6f, 0x02),
+	ILI9881C_COMMAND_INSTR(0x70, 0x02),
+	ILI9881C_COMMAND_INSTR(0x71, 0x02),
+	ILI9881C_COMMAND_INSTR(0x72, 0x02),
+	ILI9881C_COMMAND_INSTR(0x73, 0x02),
+	ILI9881C_COMMAND_INSTR(0x74, 0x02),
+	ILI9881C_COMMAND_INSTR(0x75, 0x01),
+	ILI9881C_COMMAND_INSTR(0x76, 0x00),
+	ILI9881C_COMMAND_INSTR(0x77, 0x14),
+	ILI9881C_COMMAND_INSTR(0x78, 0x15),
+	ILI9881C_COMMAND_INSTR(0x79, 0x0e),
+	ILI9881C_COMMAND_INSTR(0x7a, 0x0f),
+	ILI9881C_COMMAND_INSTR(0x7b, 0x0c),
+	ILI9881C_COMMAND_INSTR(0x7c, 0x0d),
+	ILI9881C_COMMAND_INSTR(0x7d, 0x06),
+	ILI9881C_COMMAND_INSTR(0x7e, 0x02),
+	ILI9881C_COMMAND_INSTR(0x7f, 0x07),
+	ILI9881C_COMMAND_INSTR(0x88, 0x02),
+	ILI9881C_COMMAND_INSTR(0x89, 0x02),
+	ILI9881C_COMMAND_INSTR(0x8A, 0x02),
+
+	/* -------- Page 4 -------- */
+	ILI9881C_SWITCH_PAGE_INSTR(4),
+	ILI9881C_COMMAND_INSTR(0x38, 0x01),
+	ILI9881C_COMMAND_INSTR(0x39, 0x00),
+	ILI9881C_COMMAND_INSTR(0x6c, 0x15),
+	ILI9881C_COMMAND_INSTR(0x6e, 0x2b),
+	ILI9881C_COMMAND_INSTR(0x6f, 0x33),
+	ILI9881C_COMMAND_INSTR(0x8d, 0x18),
+	ILI9881C_COMMAND_INSTR(0x87, 0xba),
+	ILI9881C_COMMAND_INSTR(0x26, 0x76),
+	ILI9881C_COMMAND_INSTR(0xb2, 0xd1),
+	ILI9881C_COMMAND_INSTR(0xb5, 0x06),
+	ILI9881C_COMMAND_INSTR(0x3a, 0x24),
+	ILI9881C_COMMAND_INSTR(0x35, 0x1f),
+	ILI9881C_COMMAND_INSTR(0x33, 0x14),
+	ILI9881C_COMMAND_INSTR(0x3b, 0x98),
+
+	/* -------- Page 1 -------- */
+	ILI9881C_SWITCH_PAGE_INSTR(1),
+	ILI9881C_COMMAND_INSTR(0x22, 0x0a),
+	ILI9881C_COMMAND_INSTR(0x31, 0x00),
+	ILI9881C_COMMAND_INSTR(0x40, 0x33),
+	ILI9881C_COMMAND_INSTR(0x53, 0xa2),
+	ILI9881C_COMMAND_INSTR(0x55, 0x92),
+	ILI9881C_COMMAND_INSTR(0x50, 0x96),
+	ILI9881C_COMMAND_INSTR(0x51, 0x96),
+	ILI9881C_COMMAND_INSTR(0x60, 0x22),
+	ILI9881C_COMMAND_INSTR(0x61, 0x00),
+	ILI9881C_COMMAND_INSTR(0x62, 0x19),
+	ILI9881C_COMMAND_INSTR(0x63, 0x00),
+
+	/* VP/VN gamma (keep as-is from tl050hdv35) */
+	ILI9881C_COMMAND_INSTR(0xa0, 0x08),
+	ILI9881C_COMMAND_INSTR(0xa1, 0x11),
+	ILI9881C_COMMAND_INSTR(0xa2, 0x19),
+	ILI9881C_COMMAND_INSTR(0xa3, 0x0d),
+	ILI9881C_COMMAND_INSTR(0xa4, 0x0d),
+	ILI9881C_COMMAND_INSTR(0xa5, 0x1e),
+	ILI9881C_COMMAND_INSTR(0xa6, 0x14),
+	ILI9881C_COMMAND_INSTR(0xa7, 0x17),
+	ILI9881C_COMMAND_INSTR(0xa8, 0x4f),
+	ILI9881C_COMMAND_INSTR(0xa9, 0x1a),
+	ILI9881C_COMMAND_INSTR(0xaa, 0x27),
+	ILI9881C_COMMAND_INSTR(0xab, 0x49),
+	ILI9881C_COMMAND_INSTR(0xac, 0x1a),
+	ILI9881C_COMMAND_INSTR(0xad, 0x18),
+	ILI9881C_COMMAND_INSTR(0xae, 0x4c),
+	ILI9881C_COMMAND_INSTR(0xaf, 0x22),
+	ILI9881C_COMMAND_INSTR(0xb0, 0x27),
+	ILI9881C_COMMAND_INSTR(0xb1, 0x4b),
+	ILI9881C_COMMAND_INSTR(0xb2, 0x60),
+	ILI9881C_COMMAND_INSTR(0xb3, 0x39),
+	ILI9881C_COMMAND_INSTR(0xc0, 0x08),
+	ILI9881C_COMMAND_INSTR(0xc1, 0x11),
+	ILI9881C_COMMAND_INSTR(0xc2, 0x19),
+	ILI9881C_COMMAND_INSTR(0xc3, 0x0d),
+	ILI9881C_COMMAND_INSTR(0xc4, 0x0d),
+	ILI9881C_COMMAND_INSTR(0xc5, 0x1e),
+	ILI9881C_COMMAND_INSTR(0xc6, 0x14),
+	ILI9881C_COMMAND_INSTR(0xc7, 0x17),
+	ILI9881C_COMMAND_INSTR(0xc8, 0x4f),
+	ILI9881C_COMMAND_INSTR(0xc9, 0x1a),
+	ILI9881C_COMMAND_INSTR(0xca, 0x27),
+	ILI9881C_COMMAND_INSTR(0xcb, 0x49),
+	ILI9881C_COMMAND_INSTR(0xcc, 0x1a),
+	ILI9881C_COMMAND_INSTR(0xcd, 0x18),
+	ILI9881C_COMMAND_INSTR(0xce, 0x4c),
+	ILI9881C_COMMAND_INSTR(0xcf, 0x33),
+	ILI9881C_COMMAND_INSTR(0xd0, 0x27),
+	ILI9881C_COMMAND_INSTR(0xd1, 0x4b),
+	ILI9881C_COMMAND_INSTR(0xd2, 0x60),
+	ILI9881C_COMMAND_INSTR(0xd3, 0x39),
+
+	/* -------- Back to Page 0 (mandatory!) -------- */
+	ILI9881C_SWITCH_PAGE_INSTR(0),
+	ILI9881C_COMMAND_INSTR(0x3A, 0x77),
+};
+
 static inline struct ili9881c *panel_to_ili9881c(struct drm_panel *panel)
 {
 	return container_of(panel, struct ili9881c, panel);
@@ -515,24 +693,28 @@ static int ili9881c_prepare(struct drm_panel *panel)
 	for (i = 0; i < ctx->desc->init_length; i++) {
 		const struct ili9881c_instr *instr = &ctx->desc->init[i];
 
-		if (instr->op == ILI9881C_SWITCH_PAGE)
+		if (instr->op == ILI9881C_SWITCH_PAGE) {
 			ret = ili9881c_switch_page(ctx, instr->arg.page);
-		else if (instr->op == ILI9881C_COMMAND)
-			ret = ili9881c_send_cmd_data(ctx, instr->arg.cmd.cmd,
-						      instr->arg.cmd.data);
+			pr_info("[ili9881c] SWITCH_PAGE -> 0x%02x (ret=%d)\n",
+				instr->arg.page, ret);
+		} else if (instr->op == ILI9881C_COMMAND) {
+			ret = ili9881c_send_cmd_data(ctx,
+							instr->arg.cmd.cmd,
+							instr->arg.cmd.data);
+			pr_info("[ili9881c] CMD 0x%02x DATA 0x%02x (ret=%d)\n",
+				instr->arg.cmd.cmd,
+				instr->arg.cmd.data,
+				ret);
+		}
 
-		if (ret)
+		if (ret) {
+			dev_err(&ctx->dsi->dev,
+				"[ili9881c] Failed at step %d (op=%d)\n",
+				i, instr->op);
 			return ret;
+		}
+
 	}
-
-	ret = ili9881c_switch_page(ctx, 0);
-	if (ret)
-		return ret;
-
-	ret = mipi_dsi_dcs_set_tear_on(ctx->dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
-	if (ret)
-		return ret;
-
 	ret = mipi_dsi_dcs_exit_sleep_mode(ctx->dsi);
 	if (ret)
 		return ret;
@@ -602,6 +784,26 @@ static const struct drm_display_mode k101_im2byl02_default_mode = {
 	.width_mm	= 135,
 	.height_mm	= 217,
 };
+static const struct drm_display_mode WF50DTYA3MNG10_default_mode = {
+    .clock       = 63500,           // Pixel clock in kHz = 63.5 MHz
+
+    .hdisplay    = 720,             // Active horizontal resolution
+    .hsync_start = 720 + 18,        // HFP
+    .hsync_end   = 720 + 18 + 2,    // HFP + HPW
+    .htotal      = 720 + 18 + 2 + 12, // HFP + HPW + HBP
+
+    .vdisplay    = 1280,            // Active vertical resolution
+    .vsync_start = 1280 + 8,        // VFP
+    .vsync_end   = 1280 + 8 + 2,    // VFP + VPW
+    .vtotal      = 1280 + 8 + 2 + 14, // VFP + VPW + VBP
+
+    .width_mm    = 62,              // Panel width in mm (from datasheet)
+    .height_mm   = 110,             // Panel height in mm (from datasheet)
+     
+	.flags       = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
+    .type        = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
+   
+};
 
 static int ili9881c_get_modes(struct drm_panel *panel,
 			      struct drm_connector *connector)
@@ -658,22 +860,26 @@ static int ili9881c_dsi_probe(struct mipi_dsi_device *dsi)
 		return PTR_ERR(ctx->power);
 	}
 
-	ctx->reset = devm_gpiod_get(&dsi->dev, "reset", GPIOD_OUT_LOW);
+	ctx->reset = devm_gpiod_get_optional(&dsi->dev, "reset", GPIOD_OUT_LOW);
 	if (IS_ERR(ctx->reset)) {
-		dev_err(&dsi->dev, "Couldn't get our reset GPIO\n");
-		return PTR_ERR(ctx->reset);
+		ret = PTR_ERR(ctx->reset);
+		if (ret != -EPROBE_DEFER)
+			dev_err(&dsi->dev, "cannot get reset GPIO: %d\n", ret);
+		return ret;
 	}
 
 	ret = drm_panel_of_backlight(&ctx->panel);
-	if (ret)
+	if (ret){
+		dev_err(&dsi->dev, "cannot get backlight %d\n", ret);
 		return ret;
+	}
 
 	drm_panel_add(&ctx->panel);
 
-	dsi->mode_flags = MIPI_DSI_MODE_VIDEO_SYNC_PULSE;
+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST | MIPI_DSI_MODE_NO_EOT_PACKET;
 	dsi->format = MIPI_DSI_FMT_RGB888;
-	dsi->lanes = 4;
-
+	dsi->lanes = 2;
+	
 	return mipi_dsi_attach(dsi);
 }
 
@@ -699,9 +905,16 @@ static const struct ili9881c_desc k101_im2byl02_desc = {
 	.mode = &k101_im2byl02_default_mode,
 };
 
+static const struct ili9881c_desc WF50DTYA3MNG10_desc = {
+        .init = WF50DTYA3MNG10_init,
+        .init_length = ARRAY_SIZE(WF50DTYA3MNG10_init),
+        .mode = &WF50DTYA3MNG10_default_mode,
+};
+
 static const struct of_device_id ili9881c_of_match[] = {
 	{ .compatible = "bananapi,lhr050h41", .data = &lhr050h41_desc },
 	{ .compatible = "feixin,k101-im2byl02", .data = &k101_im2byl02_desc },
+	{ .compatible = "winstar,WF50DTYA3MNG10", .data = &WF50DTYA3MNG10_desc },
 	{ }
 };
 MODULE_DEVICE_TABLE(of, ili9881c_of_match);

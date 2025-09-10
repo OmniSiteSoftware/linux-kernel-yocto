@@ -1162,6 +1162,7 @@ dtb-$(CONFIG_ARCH_STM32) += \
 	_ov_board_can1_ccmp15-dvk.dtbo \
 	_ov_board_can2_ccmp15-dvk.dtbo \
 	_ov_board_dlc0200ccp04df-mipi-dsi_ccmp15-dvk.dtbo \
+	_ov_board_okaya-mipi-dsi_ccmp15-dvk.dtbo \
 	_ov_board_eth0-10-100_ccmp15-dvk.dtbo \
 	_ov_board_fusion10-lvds_ccmp15-dvk.dtbo \
 	_ov_board_fusion7-parallel_ccmp15-dvk.dtbo \

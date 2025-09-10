@@ -1,85 +1,138 @@
-/*
- * Copyright 2023 Digi International Inc.
- *
- * Permission to use, copy, modify, and/or distribute this software for any
- * purpose with or without fee is hereby granted, provided that the above
- * copyright notice and this permission notice appear in all copies.
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
- * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
- * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
- * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
- * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
- * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- */
-
-#include <dt-bindings/interrupt-controller/arm-gic.h>
-#include <dt-bindings/clock/stm32mp1-clks.h>
-#include <dt-bindings/reset/stm32mp1-resets.h>
-
 /dts-v1/;
 /plugin/;
 
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/pinctrl/stm32-pinfunc.h>
+
 / {
-	fragment@0 {
-		target-path = "/";
-		__overlay__ {
-			overlay-description = "DVK: version 1";
+    fragment@0 {
+        target-path = "/";
+        __overlay__ {
+            overlay-description = "DVK v1.1: USB2514B hub + ETH2 with GPIO enables/resets";
+            usb-b-connector { status = "disabled"; };
+        };
+    };
 
-			/* Disable USB OTG connector based on GPIO lines */
-			usb-b-connector {
-				status = "disabled";
-			};
+    fragment@1 {
+        target = <&lt_bridge>;
+        __overlay__ { no-hpd; };
+    };
 
-			/* Add USB OTG node based on native lines */
-			soc {
-				#address-cells = <1>;
-				#size-cells = <1>;
+    /* Pinmux states */
+    fragment@2 {
+        target = <&pinctrl>;
+        __overlay__ {
+            hub_reset_pi8: hub-reset-pi8 {
+                pins { pinmux = <STM32_PINMUX('I', 8, GPIO)>; bias-disable; drive-push-pull; slew-rate = <1>; };
+            };
+            hub_en_pa10: hub-en-pa10 {
+                pins { pinmux = <STM32_PINMUX('A', 10, GPIO)>; bias-disable; drive-push-pull; slew-rate = <1>; };
+            };
+            eth2_reset_pb10: eth2-reset-pb10 {
+                pins { pinmux = <STM32_PINMUX('B', 10, GPIO)>; bias-disable; drive-push-pull; slew-rate = <1>; };
+            };
+            eth_en_pe6: eth-en-pe6 {
+                pins { pinmux = <STM32_PINMUX('E', 6, GPIO)>; bias-disable; drive-push-pull; slew-rate = <1>; };
+            };
 
-				usbotg_hs_native_vbus: usb-otg-native-vbus@49000000 {
-					compatible = "st,stm32mp15-hsotg", "snps,dwc2";
-					reg = <0x49000000 0x10000>;
-					clocks = <&rcc USBO_K>, <&usbphyc>;
-					clock-names = "otg", "utmi";
-					resets = <&rcc USBO_R>;
-					reset-names = "dwc2";
-					interrupts-extended = <&exti 44 IRQ_TYPE_LEVEL_HIGH>;
-					g-rx-fifo-size = <512>;
-					g-np-tx-fifo-size = <32>;
-					g-tx-fifo-size = <256 16 16 16 16 16 16 16>;
-					dr_mode = "otg";
-					otg-rev = <0x200>;
-					usb33d-supply = <&usb33>;
-					power-domains = <&pd_core>;
-					wakeup-source;
-					pinctrl-0 = <&usbotg_hs_pins_a>;
-					pinctrl-names = "default";
-					phys = <&usbphyc_port1 0>;
-					phy-names = "usb2-phy";
-					vbus-supply = <&vbus_otg>;
-				};
-			};
-		};
-	};
+            brain_usart3_pins: usart3-1 {
+                pins1 {
+                    pinmux = <STM32_PINMUX('T', 21, AF7)>, /* USART3_TX */
+                    <STM32_PINMUX('N', 21, AF7)>; /* USART3_RTS */
+                    bias-disable;
+                    drive-push-pull;
+                    slew-rate = <0>;
+                };
+                pins2 {
+                        pinmux = <STM32_PINMUX('R', 21, AF7)>, /* USART3_RX */
+                        <STM32_PINMUX('M', 21, AF7)>; /* USART3_CTS */
+                        bias-disable;
+                    };
+                };
+                
+                brain_usart3_sleep_pins: usart3-sleep-1 {
+                        pins {
+                            pinmux = <STM32_PINMUX('T', 21, ANALOG)>, /* USART3_TX */
+                            <STM32_PINMUX('R', 21, ANALOG)>, /* USART3_RX */
+                            <STM32_PINMUX('N', 21, ANALOG)>, /* USART3_RTS */
+                            <STM32_PINMUX('M', 21, ANALOG)>; /* USART3_CTS */
+                        };
+                    };
+        };
+    };
+    /* Re-declare OTG HS block as fixed host */
+    fragment@3 {
+        target = <&usbotg_hs>;
+        __overlay__ {
+            phys = <&usbphyc_port1 0>;
+            phy-names = "usb2-phy";
+            status = "okay";
+            dr_mode = "host";          /* override role-switch with host */
+            vbus-supply = <&vbus_otg>; /* must exist in base DT */
+            /* keep any other properties needed from base, drop role-switch/port */
+        };
+    };
 
-	fragment@1 {
-		target = <&lt_bridge>;
-		__overlay__ {
-			/*
-			 * By default, on the DVKv1, the hot plug detect (HPD) line is not
-			 * used because this line is shared with the LCD/LVDS touch
-			 * controller interrupt line, so the hpd-gpios device tree property
-			 * should be also removed
-			 */
-			no-hpd;
-		};
-	};
+    fragment@4 {
+        target = <&usbh_ehci>;
+        __overlay__ { status = "okay"; };
+    };
 
-	/* Disable USB OTG node based on GPIO lines */
-	fragment@2 {
-		target = <&usbotg_hs>;
-		__overlay__ {
-			status = "disabled";
-		};
-	};
+    /* GPIO hogs */
+    fragment@5 {
+        target = <&gpioe>;
+        __overlay__ {
+            pinctrl-names = "default";
+            pinctrl-0 = <&eth_en_pe6>;
+            eth_en: eth-en {
+                gpio-hog;
+                gpios = <6 GPIO_ACTIVE_HIGH>;
+                output-high;
+                line-name = "ETH_EN";
+            };
+        };
+    };
+
+    fragment@6 {
+        target = <&gpioa>;
+        __overlay__ {
+            pinctrl-names = "default";
+            pinctrl-0 = <&hub_en_pa10>;
+            usb_hub_en: usb-hub-en {
+                gpio-hog;
+                gpios = <10 GPIO_ACTIVE_HIGH>;
+                output-high;
+                line-name = "USB_HUB_EN";
+            };
+        };
+    };
+
+    fragment@7 {
+        target = <&gpioi>;
+        __overlay__ {
+            pinctrl-names = "default";
+            pinctrl-0 = <&hub_reset_pi8>;
+            usb_hub_reset: usb-hub-reset {
+                gpio-hog;
+                gpios = <8 GPIO_ACTIVE_HIGH>;
+                output-high;
+                line-name = "USB_HUB_RESET";
+            };
+        };
+    };
+
+    fragment@8 {
+        target = <&gpiob>;
+        __overlay__ {
+            pinctrl-names = "default";
+            pinctrl-0 = <&eth2_reset_pb10>;
+            eth2_reset: eth2-reset {
+                gpio-hog;
+                gpios = <10 GPIO_ACTIVE_HIGH>;
+                output-high;
+                line-name = "ETH2_RESET";
+            };
+        };
+    };
+
 };
