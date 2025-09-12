@@ -26,14 +26,12 @@
 	/* Goodix touch enable (if these nodes exist in base) */
 	fragment@3 { target = <&goodix_touch>;
 		__overlay__ {
-			reset-gpios = <&gpioc 3 GPIO_ACTIVE_LOW>; /* TP_RST */
-			skip-firmware-request;
+			reset-gpios = <&gpioc 3 GPIO_ACTIVE_HIGH>; /* TP_RST */
 		status = "okay"; };
 	};
 	fragment@4 { target = <&goodix_touch2>;
 		__overlay__ {
-			reset-gpios = <&gpioc 3 GPIO_ACTIVE_LOW>; /* TP_RST */
-			skip-firmware-request;
+			reset-gpios = <&gpioc 3 GPIO_ACTIVE_HIGH>; /* TP_RST */
 		status = "okay"; };
 	};
 	
