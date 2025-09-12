@@ -665,6 +665,7 @@ static const struct ili9881c_instr WF50DTYA3MNG10_init[] = {
 	ILI9881C_COMMAND_INSTR(0xD1, 0x4B), // VN8
 	ILI9881C_COMMAND_INSTR(0xD2, 0x60), // VN4
 	ILI9881C_COMMAND_INSTR(0xD3, 0x39), // VN0
+	
 };
 
 static inline struct ili9881c *panel_to_ili9881c(struct drm_panel *panel)
@@ -751,9 +752,20 @@ static int ili9881c_prepare(struct drm_panel *panel)
 		}
 
 	}
+	ret = ili9881c_switch_page(ctx, 0);
+	if (ret)
+		return ret;
+	dev_info(&ctx->dsi->dev, "ili9881c: switched to page 0\n");
+
+	ret = mipi_dsi_dcs_set_tear_off(ctx->dsi);
+	if (ret)
+		return ret;
+	dev_info(&ctx->dsi->dev, "ili9881c: TE set off VBLANK\n");
+
 	ret = mipi_dsi_dcs_exit_sleep_mode(ctx->dsi);
 	if (ret)
 		return ret;
+	dev_info(&ctx->dsi->dev, "ili9881c: exit sleep mode\n");
 
 	return 0;
 }
