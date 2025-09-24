@@ -27,12 +27,25 @@
 	fragment@3 { target = <&goodix_touch>;
 		__overlay__ {
 			reset-gpios = <&gpioc 3 GPIO_ACTIVE_HIGH>; /* TP_RST */
-		status = "okay"; };
+			touchscreen-size-x = <720>;
+        	touchscreen-size-y = <1280>;
+			/* Uncomment if needed after testing */
+			touchscreen-inverted-x;
+			touchscreen-inverted-y;
+			// touchscreen-swapped-x-y;
+
+			status = "okay"; };
 	};
 	fragment@4 { target = <&goodix_touch2>;
 		__overlay__ {
 			reset-gpios = <&gpioc 3 GPIO_ACTIVE_HIGH>; /* TP_RST */
-		status = "okay"; };
+			touchscreen-size-x = <720>;
+        	touchscreen-size-y = <1280>;
+			/* Uncomment if needed after testing */
+			touchscreen-inverted-x;
+			touchscreen-inverted-y;
+			// touchscreen-swapped-x-y;
+			status = "disable"; };
 	};
 	
 	/* PH3 as DISP_EN (GPIO hog) */
