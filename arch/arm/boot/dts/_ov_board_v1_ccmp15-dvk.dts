@@ -37,6 +37,15 @@
 			audio_en_pe4: audio_en_pe4{
 			pins { pinmux = <STM32_PINMUX('E', 4, GPIO)>; bias-disable; drive-push-pull; slew-rate = <1>; };
 			};
+
+			gpio_en_pc8: gpio_en_pc8{
+			pins { pinmux = <STM32_PINMUX('C', 8, GPIO)>; bias-disable; drive-push-pull; slew-rate = <1>; };
+			};
+
+			gpio_en_pc9: gpio_en_pc9{
+			pins { pinmux = <STM32_PINMUX('C', 9, GPIO)>; bias-disable; drive-push-pull; slew-rate = <1>; };
+			};
+
 			brain_usart3_pins: usart3-1 {
 				pins1 {
 					pinmux = <STM32_PINMUX('T', 21, AF7)>, /* USART3_TX */
