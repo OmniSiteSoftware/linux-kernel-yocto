@@ -49,7 +49,7 @@
 			regulator-name = "5v_board";
 			regulator-min-microvolt = <5000000>;
 			regulator-max-microvolt = <5000000>;
-			gpio = <&gpioc 10 GPIO_ACTIVE_HIGH>;
+			gpio = <&gpioc 8 GPIO_ACTIVE_HIGH>;
 			enable-active-high;
 			status = "okay";
 		};
@@ -68,7 +68,7 @@
 		/* node TIM2_CH1 period (ns) */
 		pwms = <&pwm2 0 8000000 PWM_POLARITY_INVERTED>;
 		brightness-levels = <0 16 22 30 40 55 75 102 138 188 255>;
-		default-brightness-level = <8>;
+		default-brightness-level = <3>;
 		power-supply = <&reg_5v_board>;
 		status = "disabled";
 	};
@@ -303,7 +303,7 @@
     pinctrl-names = "default";
     pinctrl-0 = <&spi3_pins_a>;  /* MISO/MOSI/SCK pins */
     cs-gpios = <&gpioa 4 GPIO_ACTIVE_LOW>;  /* Free GPIO for CS */
-    status = "disabled";
+    status = "okay";
 
 	spidev@0 {
         compatible = "rohm,dh2228fv";
@@ -335,11 +335,65 @@
 		pinctrl-0 = <&ccmp15_pwm4_pins>;
 		pinctrl-1 = <&ccmp15_pwm4_sleep_pins>;
 		pinctrl-names = "default", "sleep";
-		status = "okay";
+		status = "disabled";
 	};
 	timer@3 {
 		status = "okay";
 	};
+};
+
+&gpioa {
+    io_i2c_a_reset: io-i2c-a-reset-hog {
+        gpio-hog;
+        gpios = <8 GPIO_ACTIVE_HIGH>;
+        output-high;
+        line-name = "io_i2c_a_rst";
+    };
+};
+
+&gpioe {
+    io_i2c_b_reset: io-i2c-b-reset-hog {
+        gpio-hog;
+        gpios = <5 GPIO_ACTIVE_HIGH>;
+        output-high;
+        line-name = "io_i2c_b_rst";
+    };
+};
+
+&i2c1 {
+    clock-frequency = <400000>;
+    pinctrl-names = "default", "sleep";
+    pinctrl-0 = <&ccmp15_i2c1_pins_a >;
+    pinctrl-1 = <&ccmp15_i2c1_sleep_pins_a >;
+    status = "okay";
+
+    tcal9539_75: gpio-expander@75 {
+        compatible = "nxp,pca9539";
+        reg = <0x75>;
+        gpio-controller;
+        #gpio-cells = <2>;
+        interrupt-parent = <&gpioa>;
+        interrupts = <9 IRQ_TYPE_LEVEL_LOW>;           /* IO_I2C_A_INT (PA9) */
+    };
+
+    tcal9539_76: gpio-expander@76 {
+        compatible = "nxp,pca9539";
+        reg = <0x76>;
+        gpio-controller;
+        #gpio-cells = <2>;
+        interrupt-parent = <&gpioa>;
+        interrupts = <9 IRQ_TYPE_LEVEL_LOW>;
+    };
+
+    tcal9539_77: gpio-expander@77 {
+        compatible = "nxp,pca9539";
+        reg = <0x77>;
+        gpio-controller;
+        #gpio-cells = <2>;
+        //reset-gpios = <&gpioa 8 GPIO_ACTIVE_HIGH>;
+        interrupt-parent = <&gpioa>;
+        interrupts = <9 IRQ_TYPE_LEVEL_LOW>;
+    };
 };
 
 &i2c2 {
@@ -430,7 +484,7 @@
 	/* spare dmas for other usage */
 	/delete-property/dmas;
 	/delete-property/dma-names;
-
+    
 	lt_bridge: lt8912@48 {
 		compatible = "lontium,lt8912";
 		reg = <0x48>;
@@ -487,13 +541,6 @@
 		};
 	};
 
-	ext_rtc: ext_rtc@52 {
-		compatible = "microcrystal,rv3028";
-		reg = <0x52>;
-		interrupt-parent = <&gpioa>;
-		interrupts = <4 IRQ_TYPE_EDGE_FALLING>;
-		wakeup-source;
-	};
 };
 
 &usbh_ehci {
@@ -565,14 +612,14 @@
 };
 
 /* PCIe connector uses USB */
-&gpioc {
-	pcie {
-		gpio-hog;
-		gpios = <11 0>;
-		output-high;
-		line-name = "PCIe-EN";
-	};
-};
+// &gpioc {
+// 	pcie {
+// 		gpio-hog;
+// 		gpios = <11 0>;
+// 		output-high;
+// 		line-name = "PCIe-EN";
+// 	};
+// };
 
 /* RS485 */  
 &uart7 {
@@ -1021,6 +1068,54 @@
 				<STM32_PINMUX('F', 15, ANALOG)>; /* I2C1_SDA */
         };
     };
+	ccmp15_i2c1_ctrl_pins_a: i2c1-ctrl-0 {
+        pins {
+            pinmux = <STM32_PINMUX('A', 8, GPIO)>, /* IO_I2C_A_RST */
+                     <STM32_PINMUX('A', 9, GPIO)>; /* IO_I2C_A_INT */
+            bias-pull-up;          /* needed for INT line */
+            slew-rate = <0>;
+        };
+    };
+
+    ccmp15_i2c1_ctrl_sleep_pins_a: i2c1-ctrl-sleep-0 {
+        pins {
+            pinmux = <STM32_PINMUX('A', 8, ANALOG)>, /* IO_I2C_A_RST */
+                     <STM32_PINMUX('A', 9, ANALOG)>; /* IO_I2C_A_INT */
+        };
+    };
+
+	 ccmp15_i2c6_ctrl_pins_a: i2c6-ctrl-0 {
+        pins {
+            pinmux = <STM32_PINMUX('E', 5, GPIO)>, /* IO_I2C_B_RST */
+                     <STM32_PINMUX('D', 3, GPIO)>; /* IO_I2C_B_INT */
+            bias-pull-up;          /* needed for INT line */
+            slew-rate = <0>;
+        };
+    };
+
+    ccmp15_i2c6_ctrl_sleep_pins_a: i2c6-ctrl-sleep-0 {
+        pins {
+            pinmux = <STM32_PINMUX('E', 5, ANALOG)>, /* IO_I2C_B_RST */
+                     <STM32_PINMUX('D', 3, ANALOG)>; /* IO_I2C_B_INT */
+        };
+    };
+	ccmp15_gpio_pins_a: gpio_en_pins-0{
+		pins { 
+			pinmux = <STM32_PINMUX('C', 8, GPIO)>,
+			<STM32_PINMUX('C', 9, GPIO)>; 
+			bias-disable;
+            drive-open-drain;
+            slew-rate = <0>;
+		};
+	};
+
+	ccmp15_gpio_sleep_pins_a: gpio_en_sleep_pins-0{
+		pins { 
+			pinmux = <STM32_PINMUX('C', 8, ANALOG)>,
+			<STM32_PINMUX('C', 9, ANALOG)>; 
+		};
+	};
+
 };
 
 &pinctrl_z {
