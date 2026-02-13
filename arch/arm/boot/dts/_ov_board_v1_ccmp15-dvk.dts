@@ -8,7 +8,7 @@
 	fragment@0 {
 		target-path = "/";
 		__overlay__ {
-			overlay-description = "DVK v1.1: USB2514B hub + ETH2 with GPIO enables/resets";
+			overlay-description = "DVK v1.1: USB2514B hub + ETH2 with GPIO enables/resets + XBEE";
 		usb-b-connector { status = "disabled"; };
 		};
 	};
@@ -22,8 +22,8 @@
 	fragment@2 {
 		target = <&pinctrl>;
 		__overlay__ {
-			hub_reset_pi8: hub-reset-pi8 {
-			pins { pinmux = <STM32_PINMUX('I', 8, GPIO)>; bias-disable; drive-push-pull; slew-rate = <1>; };
+			hub_reset_pf10: hub-reset-pf10 {
+			pins { pinmux = <STM32_PINMUX('F', 10, GPIO)>; bias-disable; drive-push-pull; slew-rate = <1>; };
 			};
 			hub_en_pa10: hub-en-pa10 {
 			pins { pinmux = <STM32_PINMUX('A', 10, GPIO)>; bias-disable; drive-push-pull; slew-rate = <1>; };
@@ -60,6 +60,13 @@
 					<STM32_PINMUX('N', 21, ANALOG)>, /* USART3_RTS */
 					<STM32_PINMUX('M', 21, ANALOG)>; /* USART3_CTS */
 				};
+			};
+			/*Xbee pins: PH2 = xbee_en, PZ2 = xbee_rst */
+			xbee_en_ph2: xbee_en_ph2 {
+			pins { pinmux = <STM32_PINMUX('H', 2, GPIO)>; bias-disable; drive-push-pull; slew-rate = <1>; };
+			};
+			xbee_rst_pz2: xbee_rst_pz2 {
+			pins { pinmux = <STM32_PINMUX('Z', 2, GPIO)>; bias-disable; drive-push-pull; slew-rate = <1>; };
 			};
 		};
 	};
@@ -111,16 +118,10 @@
 	};
 	
 	fragment@7 {
-		target = <&gpioi>;
+		target = <&gpiof>;
 		__overlay__ {
 			pinctrl-names = "default";
-			pinctrl-0 = <&hub_reset_pi8>;
-			usb_hub_reset: usb-hub-reset {
-				gpio-hog;
-				gpios = <8 GPIO_ACTIVE_HIGH>;
-				output-high;
-				line-name = "USB_HUB_RESET";
-			};
+			pinctrl-0 = <&hub_reset_pf10>;
 		};
 	};
 	
@@ -139,16 +140,23 @@
 	};
     
     fragment@9 {
-		target = <&gpioe>;
+		target = <&gpioh>;
 		__overlay__ {
 			pinctrl-names = "default";
-			pinctrl-0 = <&audio_en_pe4>;
-			audio_en: audio_en {
+			pinctrl-0 = <&xbee_en_ph2>;
+			xbee_en: xbee_en {
 				gpio-hog;
-				gpios = <4 GPIO_ACTIVE_HIGH>;
+				gpios = <2 GPIO_ACTIVE_HIGH>;
 				output-high;
-				line-name = "AUDIO-RESET";
+				line-name = "XBEE-EN";
 			};
+		};
+	};
+	fragment@10 {
+		target = <&gpioz>;
+		__overlay__ {
+			pinctrl-names = "default";
+			pinctrl-0 = <&xbee_rst_pz2>;
 		};
 	};
 };

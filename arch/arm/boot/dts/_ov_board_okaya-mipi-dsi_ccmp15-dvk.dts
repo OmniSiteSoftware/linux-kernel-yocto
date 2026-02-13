@@ -49,12 +49,12 @@
 	};
 	
 	/* PH3 as DISP_EN (GPIO hog) */
-	fragment@5 {
+	/*fragment@5 {
 		target = <&pinctrl>;
 		__overlay__ {
 			disp_blkl_en: disp-blkl-en {
 				pins1 {
-					/* PH3 as GPIO output */
+					/* PH3 as GPIO output 
 					pinmux = <STM32_PINMUX('H', 3, GPIO)>;
 					bias-disable;
 					drive-push-pull;
@@ -76,7 +76,7 @@
 				line-name = "DISP_EN";
 			};
 		};
-	};
+	};*/
 	
 	/* DSI node with input (from LTDC) and output (to panel) */
 	fragment@8 {
