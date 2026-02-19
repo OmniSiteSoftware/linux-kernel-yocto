@@ -45,7 +45,7 @@
 			touchscreen-inverted-x;
 			touchscreen-inverted-y;
 			// touchscreen-swapped-x-y;
-			status = "disable"; };
+			status = "disabled"; };
 	};
 	
 	/* PH3 as DISP_EN (GPIO hog) */
