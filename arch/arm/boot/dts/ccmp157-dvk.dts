@@ -122,12 +122,7 @@
 		id-gpios = <&gpioa 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; /* USB_OTG_ID */
 		vbus-gpios = <&gpioc 8 GPIO_ACTIVE_HIGH>; /* VBUS_SENSE */
 		vbus-supply = <&vbus_otg>;
-
-		port {
-			con_usbotg_hs_ep: endpoint {
-				remote-endpoint = <&usbotg_hs_ep>;
-			};
-		};
+		status = "disabled";
 	};
 };
 
@@ -552,14 +547,9 @@
 &usbotg_hs {
 	phys = <&usbphyc_port1 0>;
 	phy-names = "usb2-phy";
-	usb-role-switch;
+	dr_mode = "host";
+	vbus-supply = <&vbus_otg>;
 	status = "okay";
-
-	port {
-		usbotg_hs_ep: endpoint {
-			remote-endpoint = <&con_usbotg_hs_ep>;
-		};
-	};
 };
 
 &usbphyc {

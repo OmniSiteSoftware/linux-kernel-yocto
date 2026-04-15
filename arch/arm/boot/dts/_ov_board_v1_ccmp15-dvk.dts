@@ -8,8 +8,8 @@
 	fragment@0 {
 		target-path = "/";
 		__overlay__ {
-			overlay-description = "DVK v1.1: USB2514B hub + ETH2 with GPIO enables/resets + XBEE";
-		usb-b-connector { status = "disabled"; };
+			overlay-description = "DVK v1.1: USB2514B hub on EHCI + XBee USB host on OTG + ETH2 + XBEE";
+			usb-b-connector { status = "disabled"; };
 		};
 	};
 	
@@ -70,19 +70,7 @@
 			};
 		};
 	};
-	/* Re-declare OTG HS block as fixed host */
-	fragment@3 {
-		target = <&usbotg_hs>;
-		__overlay__ {
-			phys = <&usbphyc_port1 0>;
-			phy-names = "usb2-phy";
-			status = "okay";
-			dr_mode = "host";          /* override role-switch with host */
-			vbus-supply = <&vbus_otg>; /* must exist in base DT */
-			/* keep any other properties needed from base, drop role-switch/port */
-		};
-	};
-	
+	/* Keep the USB2514B hub on the EHCI host path */
 	fragment@4 {
 		target = <&usbh_ehci>;
 	__overlay__ { status = "okay"; };
