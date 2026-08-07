@@ -38,30 +38,7 @@
 			pins { pinmux = <STM32_PINMUX('E', 4, GPIO)>; bias-disable; drive-push-pull; slew-rate = <1>; };
 			};
 
-			brain_usart3_pins: usart3-1 {
-				pins1 {
-					pinmux = <STM32_PINMUX('T', 21, AF7)>, /* USART3_TX */
-					<STM32_PINMUX('N', 21, AF7)>; /* USART3_RTS */
-					bias-disable;
-					drive-push-pull;
-					slew-rate = <0>;
-				};
-				pins2 {
-					pinmux = <STM32_PINMUX('R', 21, AF7)>, /* USART3_RX */
-					<STM32_PINMUX('M', 21, AF7)>; /* USART3_CTS */
-					bias-disable;
-				};
-			};
-			
-			brain_usart3_sleep_pins: usart3-sleep-1 {
-				pins {
-					pinmux = <STM32_PINMUX('T', 21, ANALOG)>, /* USART3_TX */
-					<STM32_PINMUX('R', 21, ANALOG)>, /* USART3_RX */
-					<STM32_PINMUX('N', 21, ANALOG)>, /* USART3_RTS */
-					<STM32_PINMUX('M', 21, ANALOG)>; /* USART3_CTS */
-				};
-			};
-			/*Xbee pins: PH2 = xbee_en, PZ2 = xbee_rst */
+			/* XBee control pins: PH2 = XBEE_EN, PZ2 = XBEE_RST_N */
 			xbee_en_ph2: xbee_en_ph2 {
 			pins { pinmux = <STM32_PINMUX('H', 2, GPIO)>; bias-disable; drive-push-pull; slew-rate = <1>; };
 			};
