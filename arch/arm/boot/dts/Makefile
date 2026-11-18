@@ -1150,6 +1150,7 @@ dtb-$(CONFIG_ARCH_STM32) += \
 	ccmp133-mfg-functional.dtb \
 	ccmp133-mfg-functional-wb.dtb \
 	ccmp157-dvk.dtb \
+	ccmp157-wings-revd.dtb \
 	ccmp157-mfg-functional.dtb \
 	ccmp157-mfg-functional-wb.dtb \
 	_ov_board_mikroe-accel2-click_ccmp13-dvk.dtbo \

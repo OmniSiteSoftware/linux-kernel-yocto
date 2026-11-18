@@ -1,0 +1,38 @@
+// SPDX-License-Identifier: GPL-2.0+ OR BSD-3-Clause
+/* Wings brain board Rev D. Keep the existing DVK/Rev C description intact. */
+#include "ccmp157-dvk.dts"
+
+/ {
+	model = "OmniSite Wings brain Rev D";
+	compatible = "omnisite,wings-revd", "digi,ccmp15-dvk",
+		     "digi,ccmp15", "digi,ccmp1", "st,stm32mp157";
+
+	usb_hub_3v3: regulator-usb-hub-3v3 {
+		compatible = "regulator-fixed";
+		regulator-name = "usb-hub-3v3";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		vin-supply = <&v3v3>;
+		/* Rev D moved USB_HUB_EN from PA10 to PH15 (SOM L1). */
+		gpio = <&gpioh 15 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+		regulator-boot-on;
+		regulator-always-on;
+		startup-delay-us = <20000>;
+	};
+};
+
+&display_bl {
+	/* Retain the existing 8 ms period; only Rev D polarity changes. */
+	pwms = <&pwm2 0 8000000 PWM_POLARITY_NORMAL>;
+};
+
+&gpiof {
+	usb-hub-reset {
+		gpio-hog;
+		/* PF10 (SOM A9) is RESET_N, not a parallel LCD DE signal here. */
+		gpios = <10 GPIO_ACTIVE_HIGH>;
+		output-high;
+		line-name = "usb-hub-reset-n";
+	};
+};
