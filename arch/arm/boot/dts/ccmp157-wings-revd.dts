@@ -23,8 +23,8 @@
 };
 
 &display_bl {
-	/* Retain the existing 8 ms period; only Rev D polarity changes. */
-	pwms = <&pwm2 0 8000000 PWM_POLARITY_NORMAL>;
+	/* Flags 0 select normal polarity in the 5.15 PWM binding. Keep 8 ms. */
+	pwms = <&pwm2 0 8000000 0>;
 };
 
 &gpiof {
