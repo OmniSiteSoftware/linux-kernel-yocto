@@ -36,3 +36,86 @@
 		line-name = "usb-hub-reset-n";
 	};
 };
+
+/* Retain board controls previously supplied by the V1 carrier overlay.
+ * Rev D cannot use that whole overlay because USB_HUB_EN moved from PA10.
+ */
+&pinctrl {
+    eth_en_pe6: eth-en-pe6 {
+        pins {
+            pinmux = <STM32_PINMUX('E', 6, GPIO)>;
+            bias-disable;
+            drive-push-pull;
+            slew-rate = <1>;
+        };
+    };
+
+    eth2_reset_pb10: eth2-reset-pb10 {
+        pins {
+            pinmux = <STM32_PINMUX('B', 10, GPIO)>;
+            bias-disable;
+            drive-push-pull;
+            slew-rate = <1>;
+        };
+    };
+
+    xbee_en_ph2: xbee_en_ph2 {
+        pins {
+            pinmux = <STM32_PINMUX('H', 2, GPIO)>;
+            bias-disable;
+            drive-push-pull;
+            slew-rate = <1>;
+        };
+    };
+
+    xbee_rst_pz2: xbee_rst_pz2 {
+        pins {
+            pinmux = <STM32_PINMUX('Z', 2, GPIO)>;
+            bias-disable;
+            drive-push-pull;
+            slew-rate = <1>;
+        };
+    };
+};
+
+&gpioe {
+    pinctrl-names = "default";
+    pinctrl-0 = <&eth_en_pe6>;
+
+    eth_en: eth-en {
+        gpio-hog;
+        gpios = <6 GPIO_ACTIVE_HIGH>;
+        output-high;
+        line-name = "ETH_EN";
+    };
+};
+
+&gpiob {
+    pinctrl-names = "default";
+    pinctrl-0 = <&eth2_reset_pb10>;
+
+    eth2_reset: eth2-reset {
+        gpio-hog;
+        gpios = <10 GPIO_ACTIVE_HIGH>;
+        output-high;
+        line-name = "ETH2_RESET";
+    };
+};
+
+&gpioh {
+    pinctrl-names = "default";
+    pinctrl-0 = <&xbee_en_ph2>;
+
+    xbee_en: xbee_en {
+        gpio-hog;
+        gpios = <2 GPIO_ACTIVE_HIGH>;
+        output-high;
+        line-name = "XBEE-EN";
+    };
+};
+
+/* Userspace owns the XBee reset level; only establish its GPIO mux here. */
+&gpioz {
+    pinctrl-names = "default";
+    pinctrl-0 = <&xbee_rst_pz2>;
+};
